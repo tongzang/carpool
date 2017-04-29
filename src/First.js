@@ -29,6 +29,16 @@ function PublicRoute({ component: Component, authed, ...rest }) {
         />
     )
 }
+function PublicRoute2({ component: Component, authed, ...rest }) {
+    return (
+        <Route
+            {...rest}
+            render={(props) => authed === false
+                ? <Component {...props} />
+                : <Redirect to='/user' />}
+        />
+    )
+}
 
 export default class App extends Component {
     state = {

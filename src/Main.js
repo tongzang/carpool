@@ -9,6 +9,7 @@ import ReactFireMixin from 'reactfire'
 import reactMixin from 'react-mixin'
 import ContentAdd from 'material-ui/svg-icons/maps/add-location';
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
 var config = {
     apiKey: "AIzaSyDdjZl55sXwnCN70yTJBLyOKT6qPN-ZjvM",
@@ -22,8 +23,11 @@ var config = {
 firebase.initializeApp(config);
 class Main extends Component {
 
+
+
     constructor(props, context) {
         super(props);
+
         console.log(props);
         this.postData = {};
         this.state = {
@@ -63,9 +67,9 @@ class Main extends Component {
         open: false,
     };
 
-    go() {
-this.state.route.push()
-
+    go(key) {
+        console.log(key);
+        this.props.history.push('/user/' + key['.key'])
     }
 
     handleOpen = () => {
@@ -79,7 +83,7 @@ this.state.route.push()
     handleOK = () => {
         console.log(this.state.address);
         this.setState({ open: false });
-        this.postData.amount = this.state.value;
+        this.postData.max = this.state.value;
         this.postData.address = this.state.address;
 
         console.log(this.postData)
@@ -149,10 +153,11 @@ this.state.route.push()
                     newLng: lng,
                     photo: this.props.user.photoURL,
                     uid: this.props.user.providerData[0].uid,
-                    // oldLat: position.coords.latitude,
-                    // oldLng: position.coords.longitude
-                    oldLat: lat,
-                    oldLng: lng,
+                    amount: 1,
+                     oldLat: position.coords.latitude,
+                     oldLng: position.coords.longitude
+                    // oldLat: lat,
+                    // oldLng: lng,
                 };
             }, function () {
                 //handleLocationError(true, infoWindow, map.getCenter());
@@ -226,7 +231,7 @@ this.state.route.push()
                     </GoogleMapReact>
 
                     <Dialog
-                        title="Dialog With Date Picker"
+                        title="Find Friend"
                         actions={actions}
                         modal={false}
                         open={this.state.open}
@@ -244,13 +249,17 @@ this.state.route.push()
                         />
                     </Dialog>
                     <BottomSheet
-                        onRequestClose={() =>
-                            //this.closeBottomSheet()
-                            console.log("OK")
+                        onRequestClose={() => {
+                            self = this
+                            setTimeout(function () {
+                                console.log("OK");
+                                self.closeBottomSheet()
+                            }, 100)
+                        }
                         }
                         open={this.state.click}
                     >
-                        <div style={{ height: '80px', background: '#E4BE55' }} onClick={this.go}>
+                        <div style={{ height: '80px', background: '#E4BE55' }} onClick={this.go.bind(null, this.tempUser)}>
                             <div>
                                 <div style={{ 'padding-left': '16px' }}>
                                     <div style={{ 'margin-top': 0, width: '60px', display: 'inline' }}>
@@ -258,7 +267,7 @@ this.state.route.push()
                                     </div>
                                     <div style={{ position: 'absolute', 'padding-left': '16px', 'padding-top': '20px', display: 'inline', color: '#FFFFFF' }}>
                                         Go to {this.tempUser.address}<br />
-                                        Now have {this.tempUser.amount} people
+                                        Now have {this.tempUser.amount}/{this.tempUser.max} people
                                         </div>
                                 </div>
                             </div>
@@ -271,4 +280,4 @@ this.state.route.push()
 }
 reactMixin(Main.prototype, ReactFireMixin)
 
-export default Main;
+export default withRouter(Main);
