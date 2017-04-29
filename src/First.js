@@ -107,6 +107,7 @@ export default class App extends Component {
                                     <PublicRoute path='/' exact component={Home} />
                                     <PublicRoute authed={this.state.authed} path='/login' component={Login} />
                                     <PrivateRoute authed={this.state.authed} user={this.user} path='/home' component={() => (<Home user={this.user} />)} /> />
+                                    <PrivateRoute authed={this.state.authed} user={this.user} path='/user' component={() => (<Group user={this.user} />)} /> />
                                 <Route render={() => <h3>No Match</h3>} />
                                 </Switch>
                             </div>

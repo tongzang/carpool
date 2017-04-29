@@ -8,6 +8,7 @@ import firebase from 'firebase'
 import ReactFireMixin from 'reactfire'
 import reactMixin from 'react-mixin'
 import ContentAdd from 'material-ui/svg-icons/maps/add-location';
+import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
 
 var config = {
     apiKey: "AIzaSyDdjZl55sXwnCN70yTJBLyOKT6qPN-ZjvM",
@@ -21,9 +22,9 @@ var config = {
 firebase.initializeApp(config);
 class Main extends Component {
 
-    constructor(props) {
+    constructor(props, context) {
         super(props);
-
+        console.log(props);
         this.postData = {};
         this.state = {
             click: false,
@@ -63,7 +64,8 @@ class Main extends Component {
     };
 
     go() {
-        console.log("zzz");
+this.state.route.push()
+
     }
 
     handleOpen = () => {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import user from './images/user.jpg' // relative path to image 
@@ -9,24 +8,12 @@ import AppBar from 'material-ui/AppBar';
 import { Image } from 'material-ui-image';
 import RaisedButton from 'material-ui/RaisedButton';
 import firebase from 'firebase'
-  injectTapEventPlugin();
 
- var config = {
-  apiKey: "AIzaSyDdjZl55sXwnCN70yTJBLyOKT6qPN-ZjvM",
-  authDomain: "carpool-6e2f5.firebaseapp.com",
-  databaseURL: "https://carpool-6e2f5.firebaseio.com",
-  projectId: "carpool-6e2f5",
-  storageBucket: "carpool-6e2f5.appspot.com",
-  messagingSenderId: "777247145634"
-};
-
-firebase.initializeApp(config);
-  var provider = new firebase.auth.FacebookAuthProvider()
 
 class Group extends Component {
   constructor (props, context) {
     super(props, context);
-
+    console.log(props);
   }
 
 
@@ -39,26 +26,13 @@ class Group extends Component {
       'color': '#FFFFFF'
     }
 
-  const muiTheme = getMuiTheme({
-  palette: {
-    primary1Color: '#E4BE55',
-    accent1Color: '#000000',
-    textColor: '#E4BE55',
-    alternateTextColor: '#FFFFFF'
-  },
-   
-      appBar: {
-        height: 50,
-      },
-    });
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
 
           <div className = "container">
-            <div className="head">
+            {/*<div className="head">
                 
                 
-            </div> 
+            </div> */}
             <div className="box">
 
             <img src={user} alt={"user"} className="imgUser"/>
@@ -89,7 +63,6 @@ class Group extends Component {
           </div>
 
 
-      </MuiThemeProvider>
     );
   }
 }
