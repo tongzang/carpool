@@ -23,7 +23,7 @@ import firebase from 'firebase'
 firebase.initializeApp(config);
   var provider = new firebase.auth.FacebookAuthProvider()
 
-class group extends Component {
+class Group extends Component {
   constructor (props, context) {
     super(props, context);
 
@@ -94,4 +94,4 @@ class group extends Component {
   }
 }
 
-export default group;
+export default Group;
