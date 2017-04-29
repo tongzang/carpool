@@ -64,18 +64,28 @@ class App extends Component {
       'text-aligh': 'center',
       'background-color': '#009DFF',
       'color': '#FFFFFF'
+
     }
 
 
+
     return (
-        <div className="bg">
-          <div className="wapper">
-            <img src={logo} alt={"logo"} />
+        <div className="grad1 ">
+          <div className="wapper ">
+            <img src={logo} alt={"logo"} className="logo"/>
             <center>
-              <div className="btn">
-                <RaisedButton labelColor="#FFFFFF" onClick={this.login} backgroundColor="#009DFF" className="btn2" label="Facebook Login" style={style} />
-              </div>
-              <button onClick={this.login}>Login</button>
+            <h2>Welcome to Car Pool</h2>
+            <p className="f">
+              You share and my share
+            </p>
+            <p >
+              taxi in Thailand.
+            </p>
+              
+                <RaisedButton labelColor="#FFFFFF" onClick={this.login} 
+                backgroundColor="#0D47A1" className="btn4" label="Facebook Login" 
+                style={style} />
+            
             </center>
 
           </div>

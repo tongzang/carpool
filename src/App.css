@@ -79,6 +79,9 @@ img{
   margin-right: auto;
   margin-top: 20%;
 }
+.logo{
+  width: 100%;
+}
 
 .btn{
   margin-top: 10%;
@@ -87,6 +90,8 @@ img{
 }
 .btn2{
   width:70%;
+  margin-top: 40%;
+
 
 }
 .btn3{
@@ -94,6 +99,11 @@ img{
   border-radius: 0;
   margin-left:25%;
   margin-top: 40%;
+}
+.btn4{
+ margin: 0 auto;
+ width:70%;
+ margin-top: 40px;
 }
 
 .wapper { 
@@ -124,6 +134,12 @@ img{
     height: 100%;
     position: absolute;
 }
+p{
+  font-size: 18px;
+}
+h2{
+  
+}
 .imgUser{
     position: absolute;
     top: 20%;
@@ -143,6 +159,13 @@ img{
   
   
  }
+ .grad1 {
+    margin: 0 auto;
+    height: 100%;
+    position: absolute;
+    height: 100%;   
+    background: -webkit-linear-gradient(right bottom, #FDD835, #FFFDE7); /* For Safari 5.1 to 6.0 */
+}
 
 @media only screen and (max-width: 768px) {
     .wapper { width: 100%; }
