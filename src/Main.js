@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BottomSheet } from 'material-ui-bottom-sheet'
-import { AppBar, List, ListItem, Subheader, FlatButton, Dialog, RaisedButton, TextField, FloatingActionButton, FontIcon } from 'material-ui'
+import { Subheader, FlatButton, Dialog, TextField, FloatingActionButton } from 'material-ui'
 import GoogleMapReact from 'google-map-react';
 import firebase from 'firebase'
 import ReactFireMixin from 'reactfire'
 import reactMixin from 'react-mixin'
 import ContentAdd from 'material-ui/svg-icons/maps/add-location';
-import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import { Card, CardHeader } from 'material-ui/Card';
 
 var config = {
     apiKey: "AIzaSyDdjZl55sXwnCN70yTJBLyOKT6qPN-ZjvM",
@@ -23,12 +21,9 @@ var config = {
 firebase.initializeApp(config);
 class Main extends Component {
 
-
-
     constructor(props, context) {
         super(props);
 
-        console.log(props);
         this.postData = {};
         this.state = {
             click: false,
@@ -36,6 +31,7 @@ class Main extends Component {
             zoom: 15,
             value: '',
             address: '',
+            tel: '',
             checkPin: false
         };
 
@@ -59,6 +55,7 @@ class Main extends Component {
         this.closeBottomSheet = this.closeBottomSheet.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChange2 = this.handleChange2.bind(this);
+        this.handleChange3 = this.handleChange3.bind(this);
         this.clickPin = this.clickPin.bind(this);
         this.go = this.go.bind(this);
     }
@@ -68,7 +65,6 @@ class Main extends Component {
     };
 
     go(key) {
-        console.log(key);
         this.props.history.push('/user/' + key['.key'])
     }
 
@@ -81,12 +77,11 @@ class Main extends Component {
     };
 
     handleOK = () => {
-        console.log(this.state.address);
         this.setState({ open: false });
         this.postData.max = this.state.value;
         this.postData.address = this.state.address;
+        this.postData.tel = this.state.tel;
 
-        console.log(this.postData)
         var newPostKey = firebase.database().ref().child('posts').push().key;
 
         var updates = {};
@@ -115,8 +110,6 @@ class Main extends Component {
     }
 
     openBottomSheet(key) {
-        console.log(key)
-        console.log(this.state.items[key]);
         this.tempUser = this.state.items[key];
         this.setState({
             click: true
@@ -136,28 +129,33 @@ class Main extends Component {
         this.setState({ value: event.target.value });
 
     }
+
     handleChange2(event) {
         this.setState({ address: event.target.value });
     }
 
+    handleChange3(event) {
+        this.setState({ tel: event.target.value });
+    }
+
     _onClick = ({ x, y, lat, lng, event }) => {
-        console.log(this.state.checkPin);
         if (this.state.checkPin) {
+            var d = new Date();
+            var n = d.getTime();
             this.handleOpen();
             var self = this
             navigator.geolocation.getCurrentPosition((position) => {
-                console.log(this.props.user)
                 self.postData = {
                     name: this.props.user.providerData[0].displayName,
                     newLat: lat,
                     newLng: lng,
                     photo: this.props.user.photoURL,
                     uid: this.props.user.providerData[0].uid,
-                    amount: 1,
-                     oldLat: position.coords.latitude,
-                     oldLng: position.coords.longitude
-                    // oldLat: lat,
-                    // oldLng: lng,
+                    // oldLat: position.coords.latitude,
+                    // oldLng: position.coords.longitude,
+                    time: n,
+                    oldLat: lat,
+                    oldLng: lng,
                 };
             }, function () {
                 //handleLocationError(true, infoWindow, map.getCenter());
@@ -166,31 +164,15 @@ class Main extends Component {
 
     }
     clickPin() {
-        console.log("OK");
         this.setState({
             checkPin: true
         })
     }
 
     render() {
-        const muiTheme = getMuiTheme({
-            palette: {
-                primary1Color: '#E4BE55',
-                accent1Color: '#000000',
-                textColor: '#E4BE55',
-                alternateTextColor: '#FFFFFF'
-            },
-            appBar: {
-                height: 50,
-            },
-        });
         const AnyReactComponent = ({ test }) => (
             <div onClick={this.openBottomSheet.bind(null, test)}
-                style={{
-                    position: 'relative', color: 'white', background: 'red',
-                    height: 20, width: 20, top: -20, left: -30,
-                }}>
-                {test}
+                className="pin">
             </div>
         );
         const actions = [
@@ -211,7 +193,7 @@ class Main extends Component {
                 <div className="show">
                     <GoogleMapReact
                         center={this.state.center}
-                        defaultZoom={this.state.zoom}
+                        defaultZoom={15}
                         onClick={this._onClick}
                     >
                         {
@@ -229,6 +211,21 @@ class Main extends Component {
                             })
                         }
                     </GoogleMapReact>
+                    {
+                        this.state.checkPin ?
+                            <div className="labelShow">
+                                <Card style={{ width: '80px' }}>
+                                    <CardHeader
+                                        title="Marker"
+                                        subtitle=""
+                                        actAsExpander={false}
+                                        showExpandableButton={false}
+                                    />
+                                </Card>
+                            </div>
+                            : <div />
+
+                    }
 
                     <Dialog
                         title="Find Friend"
@@ -247,18 +244,23 @@ class Main extends Component {
                             floatingLabelText="จำนวนคน"
                             value={this.state.value} onChange={this.handleChange}
                         />
+                        <TextField
+                            hintText=""
+                            floatingLabelText="เบอร์โทรศัพท์"
+                            value={this.state.tel} onChange={this.handleChange3}
+                        />
                     </Dialog>
                     <BottomSheet
                         onRequestClose={() => {
                             self = this
                             setTimeout(function () {
-                                console.log("OK");
                                 self.closeBottomSheet()
                             }, 100)
                         }
                         }
                         open={this.state.click}
                     >
+                        <Subheader>{this.tempUser.name}</Subheader>
                         <div style={{ height: '80px', background: '#E4BE55' }} onClick={this.go.bind(null, this.tempUser)}>
                             <div>
                                 <div style={{ 'padding-left': '16px' }}>
@@ -267,7 +269,7 @@ class Main extends Component {
                                     </div>
                                     <div style={{ position: 'absolute', 'padding-left': '16px', 'padding-top': '20px', display: 'inline', color: '#FFFFFF' }}>
                                         Go to {this.tempUser.address}<br />
-                                        Now have {this.tempUser.amount}/{this.tempUser.max} people
+                                        Need {this.tempUser.max} people
                                         </div>
                                 </div>
                             </div>

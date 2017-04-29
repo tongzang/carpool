@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import logo from './images/logo.png' // relative path to image 
 import './App.css';
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import { Image } from 'material-ui-image';
 import RaisedButton from 'material-ui/RaisedButton';
 import firebase from 'firebase'
-
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 injectTapEventPlugin();
 
@@ -31,7 +24,7 @@ class App extends Component {
 
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
-        console.log(user);
+
       }
     });
   }
@@ -43,7 +36,6 @@ class App extends Component {
       var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
-      console.log(user);
       // ...
     }).catch(function (error) {
       // Handle Errors here.
@@ -70,10 +62,10 @@ class App extends Component {
 
 
     return (
-        <div className="grad1 ">
-          <div className="wapper ">
-            <img src={logo} alt={"logo"} className="logo"/>
-            <center>
+      <div className="grad1 ">
+        <div className="wapper ">
+          <img src={logo} alt={"logo"} className="logo" />
+          <center>
             <h2>Welcome to Car Pool</h2>
             <p className="f">
               You share and my share
@@ -81,15 +73,15 @@ class App extends Component {
             <p >
               taxi in Thailand.
             </p>
-              
-                <RaisedButton labelColor="#FFFFFF" onClick={this.login} 
-                backgroundColor="#0D47A1" className="btn4" label="Facebook Login" 
-                style={style} />
-            
-            </center>
 
-          </div>
+            <RaisedButton labelColor="#FFFFFF" onClick={this.login}
+              backgroundColor="#0D47A1" className="btn4" label="Facebook Login"
+              style={style} />
+
+          </center>
+
         </div>
+      </div>
     );
   }
 }

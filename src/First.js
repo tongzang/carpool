@@ -6,7 +6,9 @@ import Group from './Group'
 import firebase from 'firebase'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { AppBar, List, ListItem, Subheader, FlatButton } from 'material-ui'
+import { AppBar, FlatButton } from 'material-ui'
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
     return (
@@ -29,16 +31,6 @@ function PublicRoute({ component: Component, authed, ...rest }) {
         />
     )
 }
-function PublicRoute2({ component: Component, authed, ...rest }) {
-    return (
-        <Route
-            {...rest}
-            render={(props) => authed === false
-                ? <Component {...props} />
-                : <Redirect to='/user' />}
-        />
-    )
-}
 
 export default class App extends Component {
     state = {
@@ -49,8 +41,6 @@ export default class App extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
-
     }
 
     componentDidMount() {
@@ -72,9 +62,9 @@ export default class App extends Component {
 
     logout() {
         firebase.auth().signOut().then(function () {
-            console.log('Signed Out');
+            //console.log('Signed Out');
         }, function (error) {
-            console.error('Sign Out Error', error);
+            //console.error('Sign Out Error', error);
         });
     }
 
@@ -86,7 +76,7 @@ export default class App extends Component {
             palette: {
                 primary1Color: '#E4BE55',
                 accent1Color: '#000000',
-                textColor: '#E4BE55',
+                textColor: '#000000',
                 alternateTextColor: '#FFFFFF'
             },
 
@@ -94,7 +84,7 @@ export default class App extends Component {
                 height: 50,
             },
         });
-        return this.state.loading === true ? <h1>Loading</h1> : (
+        return this.state.loading === true ? <div /> : (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <BrowserRouter>
                     <div>
@@ -105,7 +95,7 @@ export default class App extends Component {
                                     <AppBar
                                         title=""
                                         iconElementRight={<FlatButton label="Logout" onClick={this.logout} />}
-                                        iconElementLeft={<div />}
+                                        iconElementLeft={<Link to="/home"><IconButton><FontIcon color={'#FFFFFF'} className='material-icons'>home</FontIcon></IconButton></Link>}
                                         style={{ position: 'fixed' }}
                                     /> : <div />
                             }
