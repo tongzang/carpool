@@ -28,7 +28,7 @@ carpoor/
     index.js
 ```
 
-## Available Scripts
+## Install and Use
 In the project directory, you can run for install dependencies:
 ### `npm install`
 
