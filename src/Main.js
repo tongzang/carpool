@@ -27,12 +27,13 @@ class Main extends Component {
         this.postData = {};
         this.state = {
             click: false,
-            center: { lat: 50, lng: 22 },
+            center: { lat: 14.160869, lng: 101.34879 },
             zoom: 15,
             value: '',
             address: '',
             tel: '',
-            checkPin: false
+            checkPin: false,
+            open: false
         };
 
         this.tempUser = {};
@@ -141,7 +142,8 @@ class Main extends Component {
     _onClick = ({ x, y, lat, lng, event }) => {
         if (this.state.checkPin) {
             var d = new Date();
-            var n = d.getTime();
+            var datestring = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " +
+                d.getHours() + ":" + d.getMinutes();
             this.handleOpen();
             var self = this
             navigator.geolocation.getCurrentPosition((position) => {
@@ -153,7 +155,7 @@ class Main extends Component {
                     uid: this.props.user.providerData[0].uid,
                     // oldLat: position.coords.latitude,
                     // oldLng: position.coords.longitude,
-                    time: n,
+                    time: datestring,
                     oldLat: lat,
                     oldLng: lng,
                 };
@@ -195,6 +197,10 @@ class Main extends Component {
                         center={this.state.center}
                         defaultZoom={15}
                         onClick={this._onClick}
+                        bootstrapURLKeys={{
+                            key: 'AIzaSyCSFy_QwMInhFKPWVgvVfEL23_2gNZOoOE',
+                            language: 'en',
+                        }}
                     >
                         {
                             this.state.items.map((marker, index) => {
@@ -252,9 +258,11 @@ class Main extends Component {
                     </Dialog>
                     <BottomSheet
                         onRequestClose={() => {
-                            self = this
+                            var self = this
                             setTimeout(function () {
-                                self.closeBottomSheet()
+                                self.setState({
+                                    click: false
+                                })
                             }, 100)
                         }
                         }
@@ -263,14 +271,15 @@ class Main extends Component {
                         <Subheader>{this.tempUser.name}</Subheader>
                         <div style={{ height: '80px', background: '#E4BE55' }} onClick={this.go.bind(null, this.tempUser)}>
                             <div>
-                                <div style={{ 'padding-left': '16px' }}>
-                                    <div style={{ 'margin-top': 0, width: '60px', display: 'inline' }}>
-                                        <img src={this.tempUser.photo} style={{ 'margin-top': '10px', background: '#FFFFFF', 'border': '1px solid #000000', display: 'inline', height: '60px', width: '60px', 'border-radius': '50%', 'object-fit': 'cover' }} />
+                                <div style={{ 'paddingLeft': '16px' }}>
+                                    <div style={{ 'marginTop': 0, width: '60px', display: 'inline' }}>
+                                        <img src={this.tempUser.photo} alt="user" style={{ 'marginTop': '10px', background: '#FFFFFF', 'border': '1px solid #000000', display: 'inline', height: '60px', width: '60px', 'borderRadius': '50%', 'objectFit': 'cover' }} />
                                     </div>
-                                    <div style={{ position: 'absolute', 'padding-left': '16px', 'padding-top': '20px', display: 'inline', color: '#FFFFFF' }}>
+                                    <div style={{ position: 'absolute', 'paddingLeft': '16px', 'paddingTop': '10px', display: 'inline', color: '#FFFFFF' }}>
                                         Go to {this.tempUser.address}<br />
-                                        Need {this.tempUser.max} people
-                                        </div>
+                                        Need {this.tempUser.max} people<br />
+                                        {this.tempUser.time}
+                                    </div>
                                 </div>
                             </div>
                         </div>

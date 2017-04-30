@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Image } from 'material-ui-image';
 import RaisedButton from 'material-ui/RaisedButton';
 import firebase from 'firebase'
 import { withRouter } from 'react-router'
@@ -11,38 +10,26 @@ class Group extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = { user: {}, status: false }
-    this.join = this.join.bind(this);
-
+    this.setData = this.setData.bind(this);
   }
   componentWillMount() {
     var res = this.props.location.pathname.substring(6);
-    self = this;
+    var self = this
     firebase.database().ref('/items/' + res).once('value').then(function (snapshot) {
-      snapshot.val().tel = "tel:" + snapshot.val().tel;
-      self.setState({ user: snapshot.val() })
-      self.setState({ status: true })
-      self.state.user.tel = "tel:" + self.state.user.tel;
-      self.setState({ user: self.state.user })
+      self.setData(snapshot.val());
     });
 
   }
 
-  join() {
-    var res = this.props.location.pathname.substring(6);
-    var postData = this.state.user;
-    // Get a key for a new Post.
-
-    // Write the new post's data simultaneously in the posts list and the user's post list.
-    var updates = {};
-    updates['/items/' + res] = postData;
-
-    firebase.database().ref().update(updates);
+  setData(value) {
+    value.tel = "tel:" + value.tel;
+    this.setState({ user: value, status: true })
   }
 
   render() {
     const style = {
-      'text-aligh': 'center',
-      'background-color': '#009DFF',
+      'textAligh': 'center',
+      'backgroundColor': '#009DFF',
       'color': '#FFFFFF'
     }
 
@@ -56,7 +43,7 @@ class Group extends Component {
                 <center><div className="txtH">{this.state.user.name}</div></center>
               </div>
               <Divider />
-              <div style={{ 'padding-top': '16px' }}>
+              <div style={{ 'paddingTop': '16px' }} className="padding-screen">
                 <div className="inbox">
                   <i className="material-icons">room</i>
                   <span className="txt">{this.state.user.address}</span>
