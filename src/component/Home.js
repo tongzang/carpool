@@ -38,20 +38,6 @@ class Main extends Component {
 
         this.tempUser = {};
 
-        this.markers = [
-            {
-                id: 1,
-                lat: 14.160869,
-                lng: 101.34879,
-                text: '1'
-            }, {
-                id: 2,
-                lat: 15.160869,
-                lng: 101.34879,
-                text: '2'
-            }
-        ]
-
         this.openBottomSheet = this.openBottomSheet.bind(this);
         this.closeBottomSheet = this.closeBottomSheet.bind(this);
         this.handleChange = this.handleChange.bind(this);

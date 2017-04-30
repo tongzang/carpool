@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
-import Login from './App'
-import Home from './Main'
-import Group from './Group'
+import Login from './Login'
+import Home from './Home'
+import User from './User'
 import firebase from 'firebase'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -102,7 +102,7 @@ export default class App extends Component {
                                     <PublicRoute path='/' exact component={Home} />
                                     <PublicRoute authed={this.state.authed} path='/login' component={Login} />
                                     <PrivateRoute authed={this.state.authed} user={this.user} path='/home' component={() => (<Home user={this.user} />)} /> />
-                                    <PrivateRoute authed={this.state.authed} user={this.user} path='/user' component={() => (<Group user={this.user} />)} /> />
+                                    <PrivateRoute authed={this.state.authed} user={this.user} path='/user' component={() => (<User user={this.user} />)} /> />
                                 <Route render={() => <h3>No Match</h3>} />
                                 </Switch>
                             </div>

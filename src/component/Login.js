@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import logo from './images/logo.png' // relative path to image 
-import './App.css';
+import logo from '../images/logo.png'
+import '../styles/style.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import firebase from 'firebase'
 

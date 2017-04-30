@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import '../styles/style.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import firebase from 'firebase'
 import { withRouter } from 'react-router'
